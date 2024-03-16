@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FitnessClubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Classes">
+    <Key>
+      <PropertyRef Name="ClassID" />
+    </Key>
+    <Property Name="ClassID" Type="Int32" Nullable="false" />
+    <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClassDate" Type="DateTime" Precision="0" />
+    <Property Name="TrainerID" Type="Int32" />
+    <NavigationProperty Name="Trainers" Relationship="Self.FK__Classes__Trainer__3B75D760" FromRole="Classes" ToRole="Trainers" />
+    <NavigationProperty Name="Members" Relationship="Self.MemberClasses" FromRole="Classes" ToRole="Members" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="MemberID" />
+    </Key>
+    <Property Name="MemberID" Type="Int32" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Classes" Relationship="Self.MemberClasses" FromRole="Members" ToRole="Classes" />
+  </EntityType>
+  <EntityType Name="Trainers">
+    <Key>
+      <PropertyRef Name="TrainerID" />
+    </Key>
+    <Property Name="TrainerID" Type="Int32" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Specialization" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Classes" Relationship="Self.FK__Classes__Trainer__3B75D760" FromRole="Trainers" ToRole="Classes" />
+  </EntityType>
+  <Association Name="FK__Classes__Trainer__3B75D760">
+    <End Role="Trainers" Type="Self.Trainers" Multiplicity="0..1" />
+    <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainers">
+        <PropertyRef Name="TrainerID" />
+      </Principal>
+      <Dependent Role="Classes">
+        <PropertyRef Name="TrainerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MemberClasses">
+    <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+    <End Role="Members" Type="Self.Members" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="FitnessClubEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Classes" EntityType="Self.Classes" />
+    <EntitySet Name="Members" EntityType="Self.Members" />
+    <EntitySet Name="Trainers" EntityType="Self.Trainers" />
+    <AssociationSet Name="FK__Classes__Trainer__3B75D760" Association="Self.FK__Classes__Trainer__3B75D760">
+      <End Role="Trainers" EntitySet="Trainers" />
+      <End Role="Classes" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="MemberClasses" Association="Self.MemberClasses">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Members" EntitySet="Members" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

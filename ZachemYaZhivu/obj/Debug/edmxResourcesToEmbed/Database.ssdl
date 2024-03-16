@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище FitnessClubModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Classes">
+    <Key>
+      <PropertyRef Name="ClassID" />
+    </Key>
+    <Property Name="ClassID" Type="int" Nullable="false" />
+    <Property Name="ClassName" Type="varchar" MaxLength="50" />
+    <Property Name="ClassDate" Type="date" />
+    <Property Name="TrainerID" Type="int" />
+  </EntityType>
+  <EntityType Name="MemberClasses">
+    <Key>
+      <PropertyRef Name="MemberID" />
+      <PropertyRef Name="ClassID" />
+    </Key>
+    <Property Name="MemberID" Type="int" Nullable="false" />
+    <Property Name="ClassID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="MemberID" />
+    </Key>
+    <Property Name="MemberID" Type="int" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Trainers">
+    <Key>
+      <PropertyRef Name="TrainerID" />
+    </Key>
+    <Property Name="TrainerID" Type="int" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Specialization" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK__Classes__Trainer__3B75D760">
+    <End Role="Trainers" Type="Self.Trainers" Multiplicity="0..1" />
+    <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trainers">
+        <PropertyRef Name="TrainerID" />
+      </Principal>
+      <Dependent Role="Classes">
+        <PropertyRef Name="TrainerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MemberCla__Class__3F466844">
+    <End Role="Classes" Type="Self.Classes" Multiplicity="1" />
+    <End Role="MemberClasses" Type="Self.MemberClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="ClassID" />
+      </Principal>
+      <Dependent Role="MemberClasses">
+        <PropertyRef Name="ClassID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MemberCla__Membe__3E52440B">
+    <End Role="Members" Type="Self.Members" Multiplicity="1" />
+    <End Role="MemberClasses" Type="Self.MemberClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="MemberClasses">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище FitnessClubModelContainer">
+    <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MemberClasses" EntityType="Self.MemberClasses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Trainers" EntityType="Self.Trainers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Classes__Trainer__3B75D760" Association="Self.FK__Classes__Trainer__3B75D760">
+      <End Role="Trainers" EntitySet="Trainers" />
+      <End Role="Classes" EntitySet="Classes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MemberCla__Class__3F466844" Association="Self.FK__MemberCla__Class__3F466844">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="MemberClasses" EntitySet="MemberClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MemberCla__Membe__3E52440B" Association="Self.FK__MemberCla__Membe__3E52440B">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="MemberClasses" EntitySet="MemberClasses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
